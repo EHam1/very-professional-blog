@@ -1,0 +1,95 @@
+---
+title: "Test Post Intro"
+date: "2025-11-08"
+excerpt: "Some tester content and why I'm doing this"
+author: "Ethan Ham"
+---
+
+# My First Post
+
+I've had many ideas of apps or systems I want to build, but as a data analyst and data scientist I never had the full skillset to bring these things to live. 
+Modern AI tools are removing all these barriers, and while I still don't know what I'm doing, I can get MVPs up and running in minutes all on my own. So here we go. 
+Let's see what I can come up with and how much I break along the way. 
+
+## The Code
+
+I want to test what the code formatting looks like in this blog I'm buidling, so here's a sample:
+
+```python
+def hello_world():
+    """A simple function to get started."""
+    message = "Hello from my blog!"
+    print(message)
+    return message
+
+# Run the function
+result = hello_world()
+print(f"Result: {result}")
+```
+
+## Testing Callout Components
+
+Here are the different callout styles you can use:
+
+<Callout type="info">
+This is an **info** callout. Use it for helpful information or tips.
+</Callout>
+
+<Callout type="warning">
+This is a **warning** callout. Great for cautionary notes or things to watch out for.
+</Callout>
+
+<Callout type="success">
+This is a **success** callout. Perfect for positive outcomes or achievements.
+</Callout>
+
+<Callout type="error">
+This is an **error** callout. Use for common mistakes or things to avoid.
+</Callout>
+
+## Testing A/B Testing
+
+This feature lets you test different content versions. Try refreshing the page or clearing cookies to see variant B:
+
+<ABTest experiment="intro-test">
+  <ABTest.Variant name="A">
+    **Variant A:** This is the first version of the content. It's more formal and technical.
+  </ABTest.Variant>
+  <ABTest.Variant name="B">
+    **Variant B:** This is the second version! It's more casual and friendly. 😊
+  </ABTest.Variant>
+</ABTest>
+
+## Other Markdown Features
+
+Here's what else works:
+
+- **Bold text** and *italic text*
+- [Links to external sites](https://github.com)
+- `inline code snippets`
+- Lists (like this one!)
+
+### Different code languages:
+
+JavaScript example:
+
+```javascript
+const greet = (name) => {
+  console.log(`Hello, ${name}!`);
+  return `Welcome to the blog`;
+};
+```
+
+Bash example:
+
+```bash
+# Install dependencies
+npm install
+
+# Run the dev server
+npm run dev
+```
+
+## Wrap Up
+
+That should be enough of a test for now. Check out how everything renders! 

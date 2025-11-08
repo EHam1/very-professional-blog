@@ -1,0 +1,143 @@
+---
+title: "Welcome to My Very Professional Blog"
+date: "2024-11-08"
+excerpt: "An introduction to this blog, its tech stack, and what you can expect to find here. Plus, a demonstration of A/B testing and interactive features!"
+author: "EHam1"
+---
+
+# Welcome! 👋
+
+Hey there! Welcome to my very professional blog where I share thoughts on coding, data science projects, and various experiments. This site is built with some cool tech and serves as both a learning platform and a place to share ideas.
+
+## What You'll Find Here
+
+This blog focuses on:
+
+- **Data Science Projects**: Python notebooks, analysis workflows, and insights
+- **Vibe Coding**: Fun experiments with modern web tech
+- **Technical Deep Dives**: Exploring concepts, tools, and best practices
+- **A/B Testing**: Because why not experiment with everything?
+
+<Callout type="info">
+This entire blog is open source and serves as a learning playground. Feel free to explore the code on [GitHub](https://github.com/EHam1/very-professional-blog).
+</Callout>
+
+## Tech Stack
+
+This site is built with a modern, performant stack:
+
+```javascript
+const techStack = {
+  framework: "Next.js 14",
+  styling: "Tailwind CSS",
+  content: "MDX",
+  analytics: "Supabase",
+  deployment: "Vercel",
+  abTesting: "Custom implementation"
+};
+```
+
+### Why This Stack?
+
+**Next.js** provides excellent performance with static site generation, **MDX** lets me write posts with interactive React components, and **Supabase** gives me a free PostgreSQL database for analytics that I can query with SQL.
+
+Here's a quick Python example of how you might analyze the data:
+
+```python
+import pandas as pd
+from supabase import create_client
+
+# Connect to Supabase
+supabase = create_client(url, key)
+
+# Get page view data
+response = supabase.table("events") \
+    .select("*") \
+    .eq("event", "page-view") \
+    .execute()
+
+# Analyze with pandas
+df = pd.DataFrame(response.data)
+views_by_page = df.groupby('page').size().sort_values(ascending=False)
+
+print(f"Total page views: {len(df)}")
+print(f"\nTop pages:\n{views_by_page.head()}")
+```
+
+<Callout type="success">
+The best part? All analytics data is accessible via SQL, making it perfect for data scientists who want to analyze user behavior with familiar tools.
+</Callout>
+
+## A/B Testing in Action
+
+Let's test different call-to-action messages. You're seeing one of two variants:
+
+<ABTest experiment="welcome-cta">
+  <ABTest.Variant name="A">
+    <div className="bg-blue-100 border-2 border-blue-300 rounded-lg p-6 my-6">
+      <h3 className="text-xl font-bold text-blue-900 mb-2">Want to learn more?</h3>
+      <p className="text-blue-800">Subscribe to get notified when I publish new posts about data science and web development.</p>
+      <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+        Subscribe Now
+      </button>
+    </div>
+  </ABTest.Variant>
+  
+  <ABTest.Variant name="B">
+    <div className="bg-green-100 border-2 border-green-300 rounded-lg p-6 my-6">
+      <h3 className="text-xl font-bold text-green-900 mb-2">Join the community!</h3>
+      <p className="text-green-800">Get exclusive updates on new posts, projects, and experiments delivered straight to your inbox.</p>
+      <button className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+        Get Updates
+      </button>
+    </div>
+  </ABTest.Variant>
+</ABTest>
+
+The system automatically assigns you to a variant and tracks which version you saw. Later, I can analyze the data to see which message resonates better!
+
+## Markdown Features
+
+Of course, all the standard Markdown features work great:
+
+### Lists
+
+- Item one
+- Item two
+  - Nested item
+  - Another nested item
+- Item three
+
+### Numbered Lists
+
+1. First step
+2. Second step
+3. Third step
+
+### Links and Emphasis
+
+You can use **bold text**, *italic text*, and [links](https://github.com/EHam1) throughout your posts.
+
+### Code Blocks
+
+Inline code looks `like this`, and code blocks support syntax highlighting for many languages.
+
+<Callout type="warning">
+**Note**: This is still a work in progress! More features and posts coming soon.
+</Callout>
+
+## What's Next?
+
+I'm planning to write about:
+
+- Setting up data pipelines with Python
+- Modern web development patterns
+- Analytics and experimentation best practices
+- Personal projects and learnings
+
+Stay tuned for more content!
+
+---
+
+Thanks for reading! Feel free to reach out on [GitHub](https://github.com/EHam1) if you have questions or suggestions.
+

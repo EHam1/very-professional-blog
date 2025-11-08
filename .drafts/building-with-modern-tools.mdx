@@ -1,0 +1,109 @@
+---
+title: "Building with Modern Tools: A Data Scientist's Perspective"
+date: "2024-11-07"
+excerpt: "Thoughts on using modern web technologies as a data scientist, and why having a personal platform matters."
+author: "EHam1"
+---
+
+# Building with Modern Tools
+
+As a data scientist, most of my day-to-day work involves Python, Jupyter notebooks, and data pipelines. But having a platform to share ideas and experiments has become increasingly valuable.
+
+## Why Build Your Own Platform?
+
+There are plenty of platforms for sharing technical content - Medium, Dev.to, LinkedIn. So why build your own?
+
+<Callout type="info">
+Having your own platform gives you **full control** over the data, design, and functionality. Plus, it's a great learning opportunity.
+</Callout>
+
+### Benefits I've Found
+
+1. **Experimentation**: Want to A/B test your content? Run custom analytics? You can do whatever you want.
+2. **Learning**: Building a blog forces you to understand web technologies better.
+3. **Ownership**: Your content, your data, your rules.
+4. **Portfolio**: It demonstrates both technical and communication skills.
+
+## The Data Scientist's Workflow
+
+Here's typically how I work on a project:
+
+```python
+# 1. Load and explore data
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('data.csv')
+print(df.describe())
+
+# 2. Clean and transform
+df_clean = df.dropna()
+df_clean['new_feature'] = df_clean['col_a'] * df_clean['col_b']
+
+# 3. Visualize
+plt.figure(figsize=(10, 6))
+df_clean['metric'].hist(bins=50)
+plt.title('Distribution of Metric')
+plt.show()
+
+# 4. Model (if needed)
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+score = model.score(X_test, y_test)
+print(f"Model accuracy: {score:.2f}")
+```
+
+This workflow is pretty standard, but having a place to document the *why* behind decisions is valuable.
+
+## Modern Tools for Modern Problems
+
+The JavaScript ecosystem has evolved tremendously. As someone who primarily codes in Python, I was impressed by:
+
+- **Type safety** with TypeScript
+- **Component-based** architecture in React
+- **Edge computing** and serverless functions
+- **Static site generation** for performance
+
+<Callout type="success">
+The best part? These tools are often free to use and deploy, making them accessible for personal projects.
+</Callout>
+
+## Bridging Python and JavaScript
+
+One interesting aspect is connecting the Python analytics world with JavaScript frontends:
+
+```markdown
+1. User interacts with blog (JavaScript)
+   ↓
+2. Events sent to API endpoint (Next.js)
+   ↓
+3. Data stored in Supabase (PostgreSQL)
+   ↓
+4. Query and analyze in Python/Jupyter
+   ↓
+5. Use insights to improve content
+```
+
+This creates a complete feedback loop!
+
+## Final Thoughts
+
+Building your own platform isn't necessary for everyone, but if you enjoy learning and want full control over your content, it's worth considering.
+
+The key is to start simple and iterate. My V1 is intentionally minimal - just posts, analytics, and A/B testing. Future versions might add:
+
+- Newsletter integration
+- Comments system
+- Better SEO optimization
+- More interactive visualizations
+
+<Callout type="warning">
+Don't let perfect be the enemy of good. Ship something simple first, then improve it based on real usage.
+</Callout>
+
+---
+
+What tools are you using for your projects? Let me know on [GitHub](https://github.com/EHam1)!
+
