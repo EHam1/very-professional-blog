@@ -14,9 +14,12 @@ interface VariantProps {
 
 export default function ABTest({ experiment, children }: ABTestProps) {
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const cookieName = `ab_${experiment}`;
 
   useEffect(() => {
+    setMounted(true);
+    
     // Get or set variant assignment
     let variant = Cookies.get(cookieName);
     
@@ -47,8 +50,9 @@ export default function ABTest({ experiment, children }: ABTestProps) {
     setSelectedVariant(variant || null);
   }, [experiment, children, cookieName]);
 
-  if (!selectedVariant) {
-    return null; // Don't render until variant is selected
+  // Don't render until client-side (prevents hydration mismatch)
+  if (!mounted || !selectedVariant) {
+    return null;
   }
 
   // Find and render the selected variant
