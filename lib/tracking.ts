@@ -6,6 +6,22 @@ export interface TrackEventData {
   [key: string]: any;
 }
 
+// Generate or retrieve anonymous user ID
+function getAnonymousUserId(): string {
+  if (typeof window === 'undefined') return '';
+  
+  const storageKey = 'anonymous_user_id';
+  let userId = localStorage.getItem(storageKey);
+  
+  if (!userId) {
+    // Generate a new anonymous user ID
+    userId = crypto.randomUUID();
+    localStorage.setItem(storageKey, userId);
+  }
+  
+  return userId;
+}
+
 export async function trackEvent(
   eventName: string,
   data?: TrackEventData
@@ -17,6 +33,7 @@ export async function trackEvent(
       timestamp: new Date().toISOString(),
       variant: data?.variant || undefined,
       page: typeof window !== 'undefined' ? window.location.pathname : undefined,
+      user_id: getAnonymousUserId(),
       metadata: data || {},
     };
 

@@ -18,7 +18,7 @@ export default async function handler(
   }
 
   try {
-    const { event, name, timestamp, variant, page, metadata } = req.body;
+    const { event, name, timestamp, variant, page, user_id, metadata } = req.body;
 
     // Validate required fields
     if (!event || !timestamp) {
@@ -27,7 +27,7 @@ export default async function handler(
 
     // Check if Supabase is configured
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      console.log('📊 Event tracked (Supabase not configured):', { event, name, variant, page });
+      console.log('📊 Event tracked (Supabase not configured):', { event, name, variant, page, user_id });
       return res.status(200).json({ success: true, message: 'Event logged locally (Supabase not configured)' });
     }
 
@@ -41,6 +41,7 @@ export default async function handler(
           timestamp,
           variant: variant || null,
           page: page || null,
+          user_id: user_id || null,
           metadata: metadata || null,
         },
       ])
