@@ -34,7 +34,7 @@ export default function ThemeToggle() {
           isDark ? 'translate-x-7' : 'translate-x-0'
         }`}
       >
-        {isDark ? (
+        {!isDark ? (
           <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"

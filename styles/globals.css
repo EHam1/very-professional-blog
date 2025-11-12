@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors;
@@ -7,5 +9,19 @@ body {
 /* Base link styles - will be overridden by specific components */
 a {
   @apply transition-colors;
+}
+
+/* Remove prose padding around code blocks */
+.prose pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* Ensure code blocks inside pre tags have no extra wrapper styling */
+.prose pre code {
+  padding: 0 !important;
+  background: transparent !important;
 }
 
