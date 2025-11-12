@@ -1,0 +1,275 @@
+---
+title: "Building a Semantic Memory Assistant: Second Brain v0"
+date: "2024-11-10"
+excerpt: "A lightweight, local-first approach to never losing track of your stuff again. Built with embeddings, vector search, and Python - all running locally on your laptop."
+author: "Ethan Ham"
+---
+
+# Building a Semantic Memory Assistant: Second Brain v0
+
+A lightweight, local-first approach to never losing track of your stuff again.
+
+---
+
+## TL;DR
+
+I built a command-line semantic search tool to remember where I put things during a cross-country move. It uses embeddings and vector search to let you query in natural language ("where's my passport?") and get instant answers, all running locally on your laptop. No APIs, no cloud, no complexity.
+
+**Key Stats:**
+- 100% local processing (no API calls)
+- Sub-second query responses
+- ~500MB footprint (including model)
+- Built in a weekend
+
+**The Result:** A working RAG-lite system that actually solved a real problem.
+
+---
+
+## The Problem: Moving Chaos
+
+In summer 2024, I moved across the country. If you've ever done a long-distance move, you know the chaos:
+
+- Boxes get relabeled as contents shift
+- Items move between cars, storage units, and temporary housing
+- That thing you packed in "bathroom box" is now somehow in "kitchen misc"
+- You're *sure* you put your passport somewhere safe... but where?
+
+Traditional solutions fell short:
+- **Physical labels**: Became outdated immediately
+- **Spreadsheets**: Too much friction to maintain
+- **Notes apps**: Hard to search when you don't remember exact wording
+- **Memory**: Not reliable after packing the 47th box
+
+I needed something that understood *what* I was looking for, not just keyword matching. Enter semantic search.
+
+---
+
+## The Approach: RAG Without the G
+
+### Architecture Overview
+
+The system has three core components:
+
+```
+User Query: "where's my passport?"
+    |
+    v
+Embedding Engine: Convert to 384-dim vector
+    |
+    v
+Vector Store: Find top similar memories (ChromaDB)
+    |
+    v
+Hybrid Scoring: Combine similarity + recency
+    |
+    v
+Response: "passport in blue suitcase (2 days ago)"
+```
+
+### Core Concept: Hybrid Scoring
+
+The secret sauce is combining two signals:
+
+```python
+# For each stored memory:
+similarity_score = cosine_similarity(query_vector, memory_vector)  # 0-1
+recency_score = exp(-days_old * decay_rate)  # Newer = higher
+
+final_score = (similarity_score * 0.7) + (recency_score * 0.3)
+```
+
+**Why this works:** When you move the passport from the blue suitcase to your backpack, you don't need to "update" anything—just add a new memory. The recency boost ensures the latest location wins.
+
+### Design Principles for v0
+
+1. **Solve the immediate problem**: Location tracking, nothing more
+2. **No feature creep**: Resist the urge to add LLMs, web UI, categories, etc.
+3. **Optimize for friction**: CLI should be faster than opening a notes app
+4. **Local-first**: Works on planes, in storage units, anywhere
+
+### Nice-to-Haves (Saved for v1+)
+
+- Web interface
+- Multi-user support
+- Categories/tags
+- LLM-powered conversational responses
+- Image attachments
+- Voice input
+
+---
+
+## The Tech Stack: Keeping It Pythonic and Local
+
+### Key Requirements
+
+1. **Local embeddings**: No OpenAI API calls during a move
+2. **Lightweight**: Must run on a laptop without eating RAM
+3. **Persistent**: Can't lose data between runs
+4. **Fast**: Sub-second responses or it's not useful
+
+### Technical Decisions
+
+#### Embeddings: sentence-transformers (all-MiniLM-L6-v2)
+
+```python
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+embedding = model.encode("passport in blue suitcase")  # Returns 384-dim vector
+```
+
+**Why this model:**
+- Small: 80MB download, 384 dimensions
+- Fast: CPU-friendly, less than 100ms inference
+- Accurate: Good enough for item/location matching
+- Local: No API calls
+
+**Alternatives considered:**
+- OpenAI embeddings: Requires internet, costs money
+- Larger models (BGE, E5): Overkill for this use case
+- Custom training: Way too much work for v0
+
+#### Vector Store: ChromaDB
+
+```python
+import chromadb
+
+client = chromadb.PersistentClient(path="./data/chroma")
+collection = client.get_or_create_collection("memories")
+
+# Add a memory
+collection.add(
+    ids=["a3f2"],
+    embeddings=[embedding],
+    documents=["passport in blue suitcase"],
+    metadatas=[{"timestamp": "2024-11-10T14:32:00"}]
+)
+
+# Search
+results = collection.query(
+    query_embeddings=[query_embedding],
+    n_results=10
+)
+```
+
+**Why ChromaDB:**
+- Embedded mode (no server needed)
+- Persistent storage out of the box
+- Simple Python API
+- Fast enough for thousands of memories
+
+**Alternatives considered:**
+- FAISS: Faster but requires manual persistence layer
+- Qdrant/Pinecone: Server-based, overkill for local use
+- Weaviate: Great but too heavy for a weekend project
+
+#### CLI: Click
+
+```bash
+# Add a memory
+$ ./brain add "passport in blue suitcase"
+✓ Memory saved! [ID: a3f2]
+
+# Recall it later
+$ ./brain recall "where's my travel document?"
+Found 1 matching memory:
+
+1. passport in blue suitcase
+   [a3f2] · 2 days ago · Score: 0.89
+```
+
+**Why Click:**
+- Pythonic decorator syntax
+- Automatic help text generation
+- Built-in input validation
+- Easy to extend
+
+### The "No LLM" Decision
+
+The biggest question I got: "Why not use GPT to make responses natural?"
+
+**The answer:** v0 is about validating the core mechanic—semantic search + recency. Adding an LLM:
+- Introduces API dependency (or huge local model)
+- Adds latency
+- Creates another failure point
+- Isn't necessary to prove the concept
+
+Raw memory text is *fine* when you just need to find your passport.
+
+### Performance Characteristics
+
+**Operation Timings:**
+- **First run (model download):** ~30 sec (one-time, cached)
+- **Add memory:** ~50ms (embedding generation)
+- **Search query:** ~100ms (embedding + vector search + scoring)
+- **Storage footprint:** ~500MB (model + data)
+
+---
+
+## How It Went
+
+### Example Usage
+
+```bash
+# Day 1: Packing
+$ ./brain add "winter coats in box labeled 'bedroom closet'"
+$ ./brain add "passport in blue suitcase top pocket"
+$ ./brain add "laptop charger in black backpack"
+
+# Day 15: Unpacking at new place
+$ ./brain recall "where are my winter jackets?"
+> winter coats in box labeled 'bedroom closet' (14 days ago)
+
+# Day 30: Moving items around
+$ ./brain add "winter coats now in hallway closet"
+$ ./brain recall "where are my coats?"
+> winter coats now in hallway closet (just now)  # Recency wins!
+```
+
+---
+
+## What I Learned
+
+**Technical Takeaways:**
+
+1. **RAG doesn't need generation**: For many use cases, retrieval alone is sufficient
+2. **Recency is a feature**: Exponential decay naturally handles "updates"
+3. **Local ML is viable**: Modern embedding models are shockingly lightweight
+4. **Hybrid scoring > pure similarity**: Combining signals beats any single metric
+
+**Product Lessons:**
+
+Building for yourself is liberating. No stakeholders, no feature requests, no scope creep. You can focus purely on solving the immediate problem. The hardest part? Knowing when to stop adding features.
+
+### What's Next
+
+**v0.5 (Quick Wins):**
+- Export/import memories (backup)
+- Search filtering by date range
+- Better error messages
+
+**v1.0 (The Big One):**
+- FastAPI REST endpoints
+- Simple web UI
+- LLM integration for natural responses
+- Multi-device sync
+
+**v2.0 (Ambitious):**
+- Voice input/output
+- Image attachments (find things by photos)
+- Automatic reminders ("You haven't accessed your passport in 6 months")
+- Mobile app
+
+### Try It Yourself
+
+The entire project is open source and documented for learning:
+- **GitHub**: [https://github.com/EHam1/external-brain-v0](https://github.com/EHam1/external-brain-v0)
+- **Architecture deep dive**: See `ARCHITECTURE.md`
+- **Quick start**: See `QUICKSTART.md`
+
+Built with sentence-transformers, ChromaDB, and Click. Runs on any laptop. Takes 5 minutes to set up.
+
+---
+
+**Have you built a small-scale RAG system? What trade-offs did you make?**
+

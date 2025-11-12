@@ -2,7 +2,7 @@
 
 A modern, performant technical blog built with Next.js, MDX, and Supabase. Features include A/B testing, custom analytics tracking, and beautiful syntax highlighting for code snippets.
 
-## 🚀 Features
+## Features
 
 - **MDX Support**: Write blog posts in Markdown with embedded React components
 - **A/B Testing**: Built-in A/B testing framework with automatic variant assignment
@@ -12,7 +12,7 @@ A modern, performant technical blog built with Next.js, MDX, and Supabase. Featu
 - **Type Safe**: Built with TypeScript
 - **Fast**: Static site generation with Next.js
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 14 (Pages Router)
 - **Content**: MDX (Markdown + React)
@@ -21,7 +21,7 @@ A modern, performant technical blog built with Next.js, MDX, and Supabase. Featu
 - **Deployment**: Vercel
 - **Language**: TypeScript
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -57,7 +57,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see your blog!
 
-## ✍️ Writing Posts
+## Writing Posts
 
 1. Create a new `.mdx` file in the `posts/` directory
 2. Add frontmatter with metadata:
@@ -87,7 +87,7 @@ def hello():
 \`\`\`
 ```
 
-## 🧪 A/B Testing
+## A/B Testing
 
 Use the `ABTest` component to test different content variants:
 
@@ -102,7 +102,7 @@ Use the `ABTest` component to test different content variants:
 </ABTest>
 ```
 
-## 📊 Analytics
+## Analytics
 
 Events are automatically tracked and stored in Supabase:
 - Page views
@@ -124,7 +124,7 @@ response = supabase.table("events").select("*").execute()
 df = pd.DataFrame(response.data)
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Deploy to Vercel
 
@@ -144,7 +144,7 @@ npm run build
 npm run start
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 very-professional-blog/
@@ -167,7 +167,7 @@ very-professional-blog/
 └── middleware.ts        # Next.js middleware
 ```
 
-## 🎨 Available Components
+## Available Components
 
 ### Callout
 
@@ -193,22 +193,22 @@ Error message
 
 See A/B Testing section above.
 
-## 📝 Scripts
+## Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
-## 🤝 Contributing
+## Contributing
 
 This is a personal blog, but feel free to fork it and make it your own!
 
-## 📄 License
+## License
 
 MIT
 
-## 🔗 Links
+## Links
 
 - [Live Site](https://your-blog.vercel.app) (update after deployment)
 - [GitHub](https://github.com/EHam1/very-professional-blog)
