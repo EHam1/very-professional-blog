@@ -18,10 +18,10 @@ export default function Home({ posts }: HomeProps) {
     <Layout>
       <div className="space-y-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
             Welcome to My Blog
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-600 dark:text-gray-400">
             Exploring code, data science, and vibe coding projects
           </p>
         </div>
@@ -29,7 +29,7 @@ export default function Home({ posts }: HomeProps) {
         <div className="space-y-6 mt-12">
           {posts.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
                 No posts yet. Check back soon!
               </p>
             </div>
@@ -37,15 +37,15 @@ export default function Home({ posts }: HomeProps) {
             posts.map((post) => (
               <article
                 key={post.slug}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+                className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-all duration-200"
               >
                 <Link href={`/posts/${post.slug}`}>
-                  <h2 className="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                  <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                     {post.title}
                   </h2>
                 </Link>
                 
-                <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
                   <time dateTime={post.date}>
                     {format(new Date(post.date), 'MMMM d, yyyy')}
                   </time>
@@ -60,14 +60,14 @@ export default function Home({ posts }: HomeProps) {
                 </div>
 
                 {post.excerpt && (
-                  <p className="mt-4 text-gray-600 line-clamp-3">
+                  <p className="mt-4 text-gray-600 dark:text-gray-300 line-clamp-3">
                     {post.excerpt}
                   </p>
                 )}
 
                 <Link
                   href={`/posts/${post.slug}`}
-                  className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                  className="inline-block mt-4 text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors"
                 >
                   Read more →
                 </Link>
