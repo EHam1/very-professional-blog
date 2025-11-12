@@ -25,9 +25,9 @@ I built a command-line semantic search tool to remember where I put things durin
 
 ---
 
-## The Problem: Moving Chaos
+## My Customer Problem: Moving Chaos
 
-In summer 2024, I moved across the country. If you've ever done a long-distance move, you know the chaos:
+In summer 2025, I moved across the country. If you've ever done a long-distance move, you know the chaos:
 
 - Boxes get relabeled as contents shift
 - Items move between cars, storage units, and temporary housing
@@ -35,16 +35,16 @@ In summer 2024, I moved across the country. If you've ever done a long-distance 
 - You're *sure* you put your passport somewhere safe... but where?
 
 Traditional solutions fell short:
-- **Physical labels**: Became outdated immediately
-- **Spreadsheets**: Too much friction to maintain
-- **Notes apps**: Hard to search when you don't remember exact wording
-- **Memory**: Not reliable after packing the 47th box
+- **Physical labels** became outdated immediately
+- **Spreadsheets** took too much friction to maintain
+- **Notes apps**: were annoying to search when you don't remember exact wording
+- **My Memory** was not reliable after packing the 47th box
 
-I needed something that understood *what* I was looking for, not just keyword matching. Enter semantic search.
+I needed something that understood *what* I was looking for, not just keyword matching. Enter semantic search...
 
 ---
 
-## The Approach: RAG Without the G
+## My Approach: RAG Without the G
 
 ### Architecture Overview
 
@@ -68,24 +68,25 @@ Response: "passport in blue suitcase (2 days ago)"
 
 ### Core Concept: Hybrid Scoring
 
-The secret sauce is combining two signals:
+The secret sauce that made this work is combining two signals:
 
 ```python
 # For each stored memory:
 similarity_score = cosine_similarity(query_vector, memory_vector)  # 0-1
 recency_score = exp(-days_old * decay_rate)  # Newer = higher
 
+# The final score weighting here is easily tunable 
 final_score = (similarity_score * 0.7) + (recency_score * 0.3)
 ```
 
-**Why this works:** When you move the passport from the blue suitcase to your backpack, you don't need to "update" anything—just add a new memory. The recency boost ensures the latest location wins.
+**Why this works:** When I move my passport from my blue suitcase to my backpack, I don't need to "update" anything— I just add a new memory. The recency boost ensures the latest location wins.
 
-### Design Principles for v0
+### Design Principles for the v0
 
-1. **Solve the immediate problem**: Location tracking, nothing more
+1. **Solve the immediate problem**: Simple tracking, nothing more
 2. **No feature creep**: Resist the urge to add LLMs, web UI, categories, etc.
 3. **Optimize for friction**: CLI should be faster than opening a notes app
-4. **Local-first**: Works on planes, in storage units, anywhere
+4. **Local-first**: Works on planes, in storage units, anywhere. + added privacy for personal data
 
 ### Nice-to-Haves (Saved for v1+)
 
@@ -101,13 +102,15 @@ final_score = (similarity_score * 0.7) + (recency_score * 0.3)
 ## The Tech Stack: Keeping It Pythonic and Local
 
 ### Key Requirements
+I wanted to keep this as straightforward as possible with minimal external dependencies and live integrations. 
+The goal here was roughly 70% learning, 30% utility.
 
 1. **Local embeddings**: No OpenAI API calls during a move
 2. **Lightweight**: Must run on a laptop without eating RAM
 3. **Persistent**: Can't lose data between runs
 4. **Fast**: Sub-second responses or it's not useful
 
-### Technical Decisions
+### Technical Decisions (thanks ChatGPT!)
 
 #### Embeddings: sentence-transformers (all-MiniLM-L6-v2)
 
@@ -174,7 +177,7 @@ $ ./brain add "passport in blue suitcase"
 $ ./brain recall "where's my travel document?"
 Found 1 matching memory:
 
-1. passport in blue suitcase
+1. passport in blue suitcaseo
    [a3f2] · 2 days ago · Score: 0.89
 ```
 
@@ -232,14 +235,17 @@ $ ./brain recall "where are my coats?"
 
 **Technical Takeaways:**
 
-1. **RAG doesn't need generation**: For many use cases, retrieval alone is sufficient
+1. **RAG doesn't need generation** - For many use cases, retrieval alone is probably sufficient, though you probably don't get to mention "AI" as many times.
 2. **Recency is a feature**: Exponential decay naturally handles "updates"
 3. **Local ML is viable**: Modern embedding models are shockingly lightweight
-4. **Hybrid scoring > pure similarity**: Combining signals beats any single metric
+4. **Hybrid scoring > pure similarity**: Combining signals beats any single metric. Playing with the function weights made a big difference in getting this to work well for me. 
 
 **Product Lessons:**
 
-Building for yourself is liberating. No stakeholders, no feature requests, no scope creep. You can focus purely on solving the immediate problem. The hardest part? Knowing when to stop adding features.
+Building a first draft app is now surprisngly easly regardless of your background. However, scope creep is also now easier than ever. Build the bare minimum, get it to work, then iterate. 
+Additionally, I predict that product taste will become more important than ever. When the barrier to entry for a new product is next to nothing and the "out of the box" AI generated content looks similar to everyone else's "average of the internet" content, 
+product taste will be more valuable than ever because that's hard to hack with AI. You need to know what you want the experience to *feel* like and who you're building it for, or you risk having your super quirky, fun new app 
+looking like every other corporate creation that has been "optimized" into oblivion. 
 
 ### What's Next
 
