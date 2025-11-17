@@ -10,6 +10,7 @@ import { getPostBySlug, getPostSlugs, Post } from '@/lib/posts';
 import { trackEvent } from '@/lib/tracking';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import React from 'react';
 
 interface PostPageProps {
   post: Post;
@@ -32,7 +33,7 @@ const createHeading = (level: number) => {
   const HeadingComponent = ({ children, ...props }: any) => {
     const text = typeof children === 'string' ? children : '';
     const id = slugify(text);
-    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+    const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
     
     return (
       <Tag id={id} {...props}>
