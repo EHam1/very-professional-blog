@@ -1,0 +1,178 @@
+---
+title: "Contributing to the Open Source Community"
+date: "2025-11-17"
+excerpt: "My journey creating a new card game - from idea to first draft"
+author: "Ethan Ham"
+---
+
+I created a new card game.
+
+---
+
+## Table of Contents
+
+- [Why Create a Card Game](#why-create-a-card-game)
+- [Game Design from Scratch](#game-design-from-scratch)
+- [OUTPOST: Galactic Expansion (First Draft)](#outpost-galactic-expansion-first-draft)
+- [The Math of Games](#the-math-of-games)
+
+---
+
+## Why Create a Card Game
+
+I love many of the ideas and projects that come from the open source community. It's beautiful to me that a 
+group of strangers all over the world can contribute to something that benefits everyone, with no immediate reward 
+to themselves. I tend to think of the open source community as a scattered group of mostly computer scientists 
+shipping code to improve shared ecosystems, coding languages, information protocols. And while I'm no computer scientist, 
+I always thought it would feel great to contribute to part of the shared vision. One day, it dawned on me that card games are 
+a sort of open source community of themselves. Nobody is buying or selling, all information is free, and anyone can contribute, 
+change, fork existing ideas to suit their needs. And with that, I set out to create my own card game that I could share with the world, 
+and I hope that one day some stranger at a bar in a foreign country has heard of my game and wants to play.
+
+---
+
+## Game Design from Scratch
+
+### 1) Pillars → Constraints → Core Verb
+
+**Pillars** (3 short lines): pace, agency, depth.
+
+**Constraints**: components (52-card deck), players (2–6), teach time (less than 2 minutes), round length (less than 20 minutes).
+
+**Core Verb**: the repeatable thing players do (e.g., build / claim / draft / program / race / meld). Everything else serves this.
+
+### 2) Information & Tension
+
+**Information structure**: open market vs. hidden hands; simultaneous reveals; peeks.
+
+**One tension engine to start**: Tempo (act early vs. strong), Risk (press-your-luck), Interaction (steal/block), or Scarcity (dwindling supply). Don't stack three at once on day one.
+
+### 3) Win Condition Before Rules
+
+Race to X points, or most points when trigger hits, or first to claim N objectives.
+
+The win condition shapes the economy (costs/points).
+
+### 4) Scoring Bundles (2–4 lanes, max)
+
+Each lane = a bundle (e.g., Route, Structure, Army).
+
+Make each lane: (a) distinct skill, (b) distinct cost pattern, (c) distinct payoff curve.
+
+Give one or two end-round bonuses to push long-horizon plans (e.g., Longest Route).
+
+### 5) Turn Economy
+
+Keep a heartbeat: Draw 1 → up to 1 Build + 1 Action.
+
+Use a hand limit to push commits and prevent hoarding.
+
+Add a micro-tempo bonus on build only if play stalls (draw 1, or Market).
+
+### 6) Point Calibration via Rarity & Efficiency
+
+Start from rarity counts (combinatorics) and efficiency (cards per point).
+
+Set baseline points with a small formula (see Resource 2), then playtest and nudge.
+
+### 7) Interaction Boundaries
+
+Limit "take-that" with costs or cooldowns (spend a face card).
+
+Provide defense (Shield) so interaction creates reads, not resentment.
+
+### 8) Playtest Loop (tight)
+
+2–3 rounds, time it, log which lane won, track dead turns.
+
+Change one knob; iterate.
+
+When two lanes dominate, boost the third by +1 point or easing its recipe.
+
+---
+
+## OUTPOST: Galactic Expansion (First Draft)
+
+**Players**: 2–5 (best at 4)
+
+**Deck**: Standard 52-card deck
+
+**Goal**: Be the first to reach 10 points
+
+**Theme**: Build outposts and colonies, forge trade routes, and assemble fleets. Beware the Space Worm…
+
+### Setup
+
+1. Shuffle the deck. Deal 3 cards to each player.
+2. Place the rest face-down as the **Sector Deck**; create a face-up **Worm Pit** discard pile.
+3. Choose a start player.
+
+### Turn Structure
+
+On your turn:
+
+1. **Draw 1** from the Sector Deck.
+2. Take up to **1 Build + 1 Action** (max one of each; you may also do just one or pass).
+3. **Hand limit 6** at end of turn (discard extras to the Worm Pit).
+
+If the deck empties, shuffle the Worm Pit to form a new Sector Deck.
+
+### Builds (score points)
+
+Play the required cards face-up to your tableau; discard the rest used to pay.
+
+**Outpost — 1 pt**
+- Cost: Pair of any rank (2–A), any suits.
+
+**Colony — 3 pt**
+- Cost: Three ascending ranks with alternating colors (R-B-R or B-R-B; suits flexible).
+
+**Trade Route — 3 pt for a 3-card route, +1 for each extra card beyond 3**
+- Cost: Consecutive ranks in the same suit (e.g., 6♠-7♠-8♠-9♠ = 4 pts).
+- v1 rule: Routes are one-shot builds (you can't extend later).
+
+**Fleet — 2 pt**
+- Cost: K + Q (any suits). Place the set to your tableau and discard them after scoring.
+
+**Bonuses:**
+- **Largest Fleet**: At game end, the player with the most Fleet sets gains +2. (Ties: nobody.)
+- **Longest Trade Network**: At game end, the player with the highest total route length gains +2. (Ties: nobody.)
+
+### Actions (face cards; play & discard to use)
+
+- **J = Spy**: Look at up to 2 cards in a target's hand (no swapping).
+- **Q = Shield**: You are immune to Spy/Raid until your next turn.
+- **K = Raid**: Steal 1 random card from a target's hand (fails if they're Shielded).
+
+*(Optional "Market" smoothing—discard 1 numeric → draw 1—is OFF in v1. Add later if needed.)*
+
+### Space Worm Alert! (slap mechanic)
+
+When a player builds a **Colony** or completes a **Fleet**, the Space Worm stirs: everyone races to slap the center.
+
+- **Last to slap**: discard 1 random card (the Worm eats it).
+- **False alarm**: Slapping without a trigger makes you discard 1 random card.
+
+### End of Game
+
+The first player to reach **10 points wins immediately**.
+
+If the deck runs out and nobody has 10+, finish the current round; highest score wins.
+
+---
+
+## Now What? 
+
+As I mentioned in the Game Design section, an important piece of making the game flow well is calibrating the 
+points and scoring system based on the frequency of events and interactions. I plan to go about this in two different 
+ways to converge on the "optimal" scoring system for OUTPOST. 
+
+1. Math: start by examining rarity counts (combinatorics) for each game event. Next, figure out a points system such that 
+the frequency of the event is inversly correlated with the number of points that event merits (more on that calculation later).
+
+2. Playtest: play a few rounds with a group of people and keep tabs on game metrics, such as build totals at the end of each 
+round, time to win each round, what strategies tend to be most succesful and is it obviously imbalanced over time etc. 
+
+---
+
+
