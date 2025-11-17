@@ -16,10 +16,42 @@ interface PostPageProps {
   mdxSource: MDXRemoteSerializeResult;
 }
 
+// Helper function to create heading IDs from text
+const slugify = (text: string): string => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+};
+
+// Custom heading components with IDs for anchor links
+const createHeading = (level: number) => {
+  const HeadingComponent = ({ children, ...props }: any) => {
+    const text = typeof children === 'string' ? children : '';
+    const id = slugify(text);
+    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+    
+    return (
+      <Tag id={id} {...props}>
+        {children}
+      </Tag>
+    );
+  };
+  return HeadingComponent;
+};
+
 // MDX components mapping
 const components = {
   ABTest,
   Callout,
+  h2: createHeading(2),
+  h3: createHeading(3),
+  h4: createHeading(4),
+  h5: createHeading(5),
+  h6: createHeading(6),
   code: ({ className, children, ...props }: any) => {
     const match = /language-(\w+)/.exec(className || '');
     const language = match ? match[1] : '';
