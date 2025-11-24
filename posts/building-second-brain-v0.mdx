@@ -77,7 +77,7 @@ recency_score = exp(-days_old * decay_rate)  # Newer = higher
 final_score = (similarity_score * 0.7) + (recency_score * 0.3)
 ```
 
-**Why this works:** When I move my passport from my blue suitcase to my backpack, I don't need to "update" anything— I just add a new memory. The recency boost ensures the latest location wins.
+**Why this works:** When I move my passport from my blue suitcase to my backpack, I don't need to "update" anything. I just add a new memory. The recency boost ensures the latest location wins.
 
 ### Design Principles for the v0
 
@@ -108,7 +108,7 @@ The goal here was roughly 70% learning, 30% utility.
 3. **Persistent**: Can't lose data between runs
 4. **Fast**: Sub-second responses or it's not useful
 
-### Technical Decisions (thanks ChatGPT!)
+### Technical Decisions (thanks, ChatGPT)
 
 #### Embeddings: sentence-transformers (all-MiniLM-L6-v2)
 

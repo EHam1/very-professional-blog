@@ -19,10 +19,10 @@ export default function Home({ posts }: HomeProps) {
       <div className="space-y-8">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-            Welcome to my super professional blog
+            Welcome to my verry professional blog
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            a data scientist exploring side projects. AI helps sometimes
+            a data scientist exploring side projects. anything good was written by me, anything bad was written by ai. 
           </p>
         </div>
 
